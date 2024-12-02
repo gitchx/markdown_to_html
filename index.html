@@ -15,10 +15,12 @@
       height: 200px;
       margin-bottom: 10px;
     }
-    #output {
+    pre {
       border: 1px solid #ccc;
       padding: 10px;
       background-color: #f9f9f9;
+      white-space: pre-wrap; /* 折り返し可能にする */
+      word-wrap: break-word;
     }
   </style>
 </head>
@@ -26,20 +28,22 @@
   <h1>Markdown to HTML Converter</h1>
   <textarea id="markdown-input" placeholder="ここにMarkdownを入力してください"></textarea>
   <button onclick="convertMarkdown()">変換する</button>
-  <h2>生成されたHTML</h2>
-  <div id="output"></div>
+  <h2>生成されたHTMLコード</h2>
+  <pre id="output"></pre>
 
   <script>
     function convertMarkdown() {
       try {
-        // Markdownを取得
+        // 入力されたMarkdownを取得
         const markdownInput = document.getElementById("markdown-input").value;
+
         // MarkdownをHTMLに変換
         const htmlOutput = marked.parse(markdownInput);
-        // 結果をHTMLとして表示
-        document.getElementById("output").innerHTML = htmlOutput;
+
+        // HTMLを生のコードとして表示
+        document.getElementById("output").innerText = htmlOutput;
       } catch (error) {
-        console.error("変換エラー:", error);
+        console.error("Markdownの変換中にエラーが発生しました:", error);
       }
     }
   </script>
