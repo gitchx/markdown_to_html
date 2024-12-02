@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Markdown to HTML Converter</title>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -31,12 +31,16 @@
 
   <script>
     function convertMarkdown() {
-      // 入力を取得
-      const markdownInput = document.getElementById("markdown-input").value;
-      // MarkdownをHTMLに変換
-      const htmlOutput = marked(markdownInput);
-      // HTMLを表示
-      document.getElementById("output").innerHTML = htmlOutput;
+      try {
+        // 入力を取得
+        const markdownInput = document.getElementById("markdown-input").value;
+        // MarkdownをHTMLに変換
+        const htmlOutput = marked.parse(markdownInput); // marked.parseを使用
+        // HTMLを表示
+        document.getElementById("output").innerHTML = htmlOutput;
+      } catch (error) {
+        console.error("変換中にエラーが発生しました:", error);
+      }
     }
   </script>
 </body>
