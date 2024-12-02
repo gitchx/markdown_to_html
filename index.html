@@ -15,35 +15,78 @@
       height: 200px;
       margin-bottom: 10px;
     }
-    pre {
+    pre, .preview {
       border: 1px solid #ccc;
       padding: 10px;
       background-color: #f9f9f9;
       white-space: pre-wrap; /* 折り返し可能にする */
       word-wrap: break-word;
     }
+    .preview {
+      margin-top: 10px;
+      padding: 20px;
+      background-color: #f1f1f1;
+    }
+    button {
+      margin: 5px 0;
+      padding: 10px 20px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
   </style>
 </head>
 <body>
   <h1>Markdown to HTML Converter</h1>
   <textarea id="markdown-input" placeholder="ここにMarkdownを入力してください"></textarea>
-  <button onclick="convertMarkdown()">変換する</button>
+  <button onclick="copyToClipboard()">変換結果をコピー</button>
   <h2>生成されたHTMLコード</h2>
   <pre id="output"></pre>
+  <h2>プレビュー</h2>
+  <div id="preview" class="preview"></div>
 
   <script>
-    function convertMarkdown() {
+    const markdownInput = document.getElementById("markdown-input");
+    const output = document.getElementById("output");
+    const preview = document.getElementById("preview");
+
+    // 入力時にリアルタイムで変換する
+    markdownInput.addEventListener("input", () => {
+      updatePreviewAndOutput();
+    });
+
+    function updatePreviewAndOutput() {
       try {
-        // 入力されたMarkdownを取得
-        const markdownInput = document.getElementById("markdown-input").value;
-
+        const markdownText = markdownInput.value;
         // MarkdownをHTMLに変換
-        const htmlOutput = marked.parse(markdownInput);
-
-        // HTMLを生のコードとして表示
-        document.getElementById("output").innerText = htmlOutput;
+        const htmlOutput = marked.parse(markdownText);
+        // HTMLを生コードとして表示
+        output.innerText = htmlOutput;
+        // HTMLをプレビューでレンダリング
+        preview.innerHTML = htmlOutput;
       } catch (error) {
         console.error("Markdownの変換中にエラーが発生しました:", error);
+      }
+    }
+
+    function copyToClipboard() {
+      try {
+        const htmlOutput = output.innerText; // 生HTMLコード
+        navigator.clipboard.writeText(htmlOutput)
+          .then(() => {
+            alert("変換結果がコピーされました！");
+          })
+          .catch((error) => {
+            console.error("コピーに失敗しました:", error);
+            alert("コピーに失敗しました。");
+          });
+      } catch (error) {
+        console.error("コピー機能にエラー:", error);
       }
     }
   </script>
