@@ -32,14 +32,14 @@
   <script>
     function convertMarkdown() {
       try {
-        // 入力を取得
+        // Markdownを取得
         const markdownInput = document.getElementById("markdown-input").value;
         // MarkdownをHTMLに変換
-        const htmlOutput = marked.parse(markdownInput); // marked.parseを使用
-        // HTMLを表示
+        const htmlOutput = marked.parse(markdownInput);
+        // 結果をHTMLとして表示
         document.getElementById("output").innerHTML = htmlOutput;
       } catch (error) {
-        console.error("変換中にエラーが発生しました:", error);
+        console.error("変換エラー:", error);
       }
     }
   </script>
